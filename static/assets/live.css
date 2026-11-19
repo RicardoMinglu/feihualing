@@ -1,0 +1,158 @@
+.support-note{font-size:10px;line-height:1.6;color:var(--muted);margin-top:8px;text-align:center}.network-note{color:var(--red);font-size:11px;padding:8px 24px;background:#fff5f3}.result-line{overflow-wrap:anywhere}.loading{opacity:.6;pointer-events:none}.search-shell .bottom-nav{position:sticky;bottom:0}.modal-poem p{font-family:var(--serif);font-size:18px;color:var(--ink);line-height:2.1}.resume{padding:12px 26px;background:var(--accent-soft);display:flex;justify-content:space-between;align-items:center;font-size:12px}.muted{color:var(--muted)}.footer-note{padding:12px 24px;color:var(--muted);font-size:10px;text-align:center}.footer-note button{font-size:10px;background:transparent;color:var(--muted);padding:0}.retry-btn{border:1px solid var(--line);border-radius:4px;background:white;padding:6px 12px;color:var(--accent);margin-left:8px}.match-corrected{color:var(--accent)}.empty small{display:block;font-family:var(--sans);font-size:11px;margin-top:10px}.composer{padding-bottom:max(12px,env(safe-area-inset-bottom))}.poem-row{display:flex;align-items:flex-start;gap:8px}.poem-row .poem-text{flex:1;min-width:0}.read-btn{width:32px;height:32px;flex:0 0 32px;color:var(--accent);display:grid;place-items:center;border:1px solid var(--line);border-radius:4px;background:var(--wash)}.read-btn.speaking{background:var(--accent);color:white}.read-btn svg{width:16px;height:16px}.result-item>.read-btn{color:var(--accent);width:32px;flex-basis:32px}.result-item>.read-btn.speaking{color:white}.modal-commands{display:flex;align-items:center;gap:10px;margin-top:12px}.modal-commands .secondary{margin:0;flex:1}.modal-commands .read-btn{width:44px;height:44px;flex-basis:44px}@media(max-height:700px){.battle-shell{min-height:550px}.battle-top{padding-top:10px;padding-bottom:8px}.composer{padding-top:9px}.battle-shell .topbar{height:54px;flex-basis:54px}}
+
+@media(max-width:599px){.battle-shell{height:var(--view-height,100dvh);min-height:0}.keyboard-open .battle-top{padding-top:8px;padding-bottom:8px}.keyboard-open .arena{display:none}.keyboard-open .composer{padding-top:8px}.answer-form input{font-size:16px}}
+.modal{overflow-wrap:anywhere}
+
+/* Let couplets use the full card width; controls share the provenance row. */
+.result-item{position:relative;display:block}
+.result-open{display:block;width:100%}
+.result-item .result-source{padding-right:78px;min-height:32px;display:flex;align-items:center}
+.result-item>.read-btn{position:absolute;right:37px;bottom:17px}
+.result-item>.icon-btn:not(.read-btn){position:absolute;right:0;bottom:17px}
+body[data-theme=c] .result-item>.read-btn{right:49px}
+body[data-theme=c] .result-item>.icon-btn:not(.read-btn){right:12px}
+.poem-source{flex-wrap:nowrap}
+.poem-source>span:first-child{min-width:0;overflow-wrap:anywhere}
+.poem-source>.read-btn{margin-left:auto}
+
+/* Shared chat geometry and native-input normalization across all themes. */
+.word-input{appearance:none;-webkit-appearance:none;box-sizing:border-box;padding:0 4px;line-height:1.25;font-size:36px;width:72px;height:76px;flex:0 0 72px;min-width:0;text-indent:0;overflow:visible}
+.segments{grid-template-columns:repeat(4,minmax(0,1fr))}
+.segment{min-width:0}.segment small{white-space:nowrap}
+.battle-shell{position:relative;min-height:0}
+.history{scroll-behavior:auto;overflow-anchor:none;padding-bottom:8px}
+body .poem-message,body[data-theme=b] .poem-message,body[data-theme=c] .poem-message{box-sizing:border-box;width:88%;margin:0 0 14px auto;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--accent-soft)}
+body .poem-message.computer,body[data-theme=b] .poem-message.computer,body[data-theme=c] .poem-message.computer{margin-left:0;margin-right:auto;background:var(--paper);border:1px solid var(--line)}
+body .round-label{justify-content:center}body .round-label:after{display:none}
+.poem-source>span:first-child{flex:1}.poem-source .correct-icon{flex:none}
+.latest-btn{align-self:center;flex-shrink:0;border:1px solid var(--line);background:var(--paper);color:var(--accent);border-radius:16px;padding:6px 14px;font-size:12px;margin:0 0 5px}
+.latest-btn[hidden]{display:none}
+.history>.more-btn{width:100%;margin:0 0 12px}
+@media(max-width:599px){
+  body .battle-shell .battle-top{padding:10px 20px 9px}
+  .battle-shell .battle-meta{margin-bottom:8px}
+  body .battle-shell .arena{padding:7px 0 0}
+  .battle-shell .avatar{width:30px;height:30px}
+  body .battle-shell .token strong{font-size:36px}
+  .battle-shell .token small{font-size:9px}
+  body .battle-shell .history{padding:8px 20px 6px}
+  body .battle-shell .round-label{margin:4px 0 8px}
+  body .battle-shell .poem-message{width:fit-content;max-width:86%;margin-bottom:9px;padding:8px 10px}
+  .battle-shell .speaker{margin-bottom:2px}
+  body .battle-shell .poem-message .poem-text{font-size:18px;line-height:1.38}
+  .battle-shell .poem-source{margin-top:4px}
+  .battle-shell .poem-source .read-btn{width:28px;height:28px;flex-basis:28px}
+  .battle-shell .your-turn{padding:5px 0 9px}
+}
+.search-shell{height:var(--view-height,100dvh);min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.search-shell>.topbar,.search-controls,.search-footer{flex:none}
+.search-controls{padding:0 24px}
+.search-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:8px 0 12px}
+.search-heading h1{font:500 28px var(--serif);color:var(--ink)}.search-heading>span{font-size:11px;color:var(--muted)}
+.search-modes{display:flex;gap:6px;background:var(--wash);padding:4px;border-radius:6px}
+.search-modes button{flex:1;padding:7px;background:transparent;color:var(--muted);border-radius:4px;font-size:13px}
+.search-modes .selected{background:var(--accent);color:white}
+body .search-controls .search-form{margin:12px 0 8px;height:48px;border:1px solid var(--line);border-radius:6px;padding:0 8px 0 12px}
+.search-form input{appearance:none;-webkit-appearance:none;padding:0;line-height:1.4}
+body .search-controls .search-form input{font-size:18px}
+.search-form button{flex:none;font-size:12px}
+body .search-controls .search-popular{margin:0;padding:0;gap:8px;flex-wrap:wrap}
+body .search-controls .results-bar{padding:12px 0 8px;margin:0;font-size:11px}
+.search-results{flex:1;min-height:0;overflow:auto;overflow-anchor:none;padding-bottom:12px}
+.result-title{display:block;font-family:var(--serif);font-size:17px;font-weight:500;margin-bottom:8px;color:var(--ink)}
+.search-results>.feedback,.search-note{padding:10px 24px}.search-note{font-size:11px;line-height:1.5;color:var(--muted)}
+.search-footer{background:var(--paper);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+body .search-footer .search-start{margin:10px 24px}.search-start .primary{min-height:42px;height:auto;padding:10px}
+body .search-footer .bottom-nav{position:static;margin:0;height:50px;padding:0}
+@media(min-width:600px){.search-shell{height:min(900px,calc(100dvh - 56px));min-height:0}.battle-shell{height:min(900px,calc(100dvh - 56px));min-height:0}}
+@media(max-height:650px){.search-heading{display:none}.search-shell>.topbar{height:48px;flex-basis:48px}.search-controls{padding-top:6px}.search-popular{display:none!important}.search-controls .results-bar{padding-top:6px}.search-footer .bottom-nav{height:42px!important}}
+@media(max-width:370px){.search-controls{padding-left:18px;padding-right:18px}.word-line{gap:10px}.word-input{width:68px;flex-basis:68px}.poem-message .poem-text{font-size:20px}}
+/* Scale the character field with enlarged fonts, including native text settings. */
+body .word-input{width:2em;min-width:2em;height:2.12em;min-height:76px;flex-basis:2em;padding:0 .1em}
+
+.bottom-nav a{width:33.333%;min-width:0;gap:6px}
+.personal-shell{height:var(--view-height,100dvh);min-height:0;display:flex;flex-direction:column}
+.personal-shell>.topbar,.personal-shell>.bottom-nav{flex:none}
+.personal-shell>.bottom-nav{margin-top:auto}
+.personal-content{min-height:0;flex:1;overflow:auto;padding:16px 24px 28px}
+.personal-content>h1,.personal-heading h1{font:500 28px var(--serif);color:var(--ink)}
+.personal-section{padding:24px 0 28px;border-bottom:1px solid var(--line)}
+.personal-section .section-label{margin-bottom:14px}
+.stage-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:18px}
+.stage-option{position:relative;display:block;min-width:0}
+.stage-option input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.stage-option span{display:grid;place-items:center;height:40px;border:1px solid var(--line);border-radius:4px;color:var(--muted);background:var(--wash);font-size:13px}
+.stage-option input:checked+span{color:white;background:var(--accent);border-color:var(--accent)}
+.stage-option input:focus-visible+span{outline:3px solid #76b4a3;outline-offset:2px}
+.personal-link{display:flex;align-items:center;gap:12px;width:100%;padding:19px 0;background:transparent;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+.personal-link span{flex:1}.personal-link svg{width:18px;height:18px;color:var(--accent)}
+.identity-note{margin-top:22px;color:var(--muted);font-size:11px;line-height:1.7}
+.personal-heading{display:flex;align-items:center;gap:4px;margin:0 0 16px -8px}
+.record-list{overflow:auto;min-height:0;max-height:calc(100% - 56px)}
+.record-row{display:flex;align-items:center;gap:14px;width:100%;padding:15px 0;background:transparent;border-bottom:1px solid var(--line);text-align:left}
+.record-token{width:43px;height:43px;flex:0 0 43px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font:25px var(--serif);border-radius:4px}
+.record-main{display:flex;min-width:0;flex:1;flex-direction:column;gap:5px}
+.record-main strong{font-size:13px;font-weight:500}.record-main small{font-size:11px;color:var(--muted);line-height:1.5}
+.record-row>svg{width:17px;color:var(--muted)}
+.record-list .empty .secondary{width:100%;margin-top:20px}
+.record-detail{display:flex;flex-direction:column;min-height:0}
+.record-summary{display:flex;flex-direction:column;gap:7px;padding:0 0 17px;border-bottom:1px solid var(--line)}
+.record-summary strong{font:500 21px var(--serif)}.record-summary span{font-size:12px;color:var(--accent)}.record-summary small{font-size:11px;line-height:1.6;color:var(--muted)}
+.record-detail>.primary{flex:none;margin:12px 0 2px;height:42px;font-size:13px}
+.record-messages{flex:1;min-height:0;overflow:auto;padding:16px 0}
+.record-messages .more-btn{margin:0 0 14px;width:100%}
+.record-messages .poem-source>.icon-btn{width:28px;height:28px;flex:0 0 28px}
+.record-messages .poem-source>.icon-btn svg{width:15px;height:15px}
+.result-tags{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;padding-right:78px}
+.result-tags span{font-size:10px;color:var(--accent);background:var(--accent-soft);border-radius:3px;padding:2px 5px}
+@media(min-width:600px){.personal-shell{height:min(900px,calc(100dvh - 56px))}}
+@media(max-width:370px){.personal-content{padding-left:18px;padding-right:18px}.stage-options{gap:4px}.stage-option span{font-size:12px}}
+
+/* Voluntary author support: separate from the free play and search flows. */
+.author-support-link{font-size:13px;color:var(--muted)}
+.result-support{margin-top:14px;text-align:center}
+.result-support a{display:inline-flex;align-items:center;min-height:44px;padding:0 5px;color:var(--accent);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.modal .result-support-note{font-size:11px;line-height:1.7}
+.author-support-link svg{width:17px;height:17px;color:var(--muted)}
+.author-support-content{overflow-wrap:anywhere}
+.author-support-intro{font-size:14px;line-height:1.9;color:var(--ink);padding:4px 0}
+.author-support-intro p{margin:0 0 14px}
+.author-support-adult{font-size:12px;line-height:1.8;color:var(--muted);margin:5px 0 20px}
+.author-support-toggle{min-height:44px;height:auto;padding:12px;font-size:14px;line-height:1.5;margin:0;width:100%}
+.author-support-code[hidden]{display:none}
+.author-support-figure{margin:20px auto 0;padding:12px;background:#fff;border:5px solid #f8e8b9;border-radius:16px;box-shadow:0 5px 16px #ad8b4220;text-align:center;max-width:326px}
+.author-support-figure img{display:block;width:100%;max-width:276px;height:auto;margin:auto}
+.author-support-scan{font-size:13px;line-height:1.8;text-align:center;color:var(--muted);margin:16px 0 8px;padding:10px 14px;background:var(--paper);border:1px solid var(--line);border-radius:24px}
+.author-support-links{display:flex;align-items:center;justify-content:center;gap:12px;margin:12px 0 18px;flex-wrap:wrap}
+.author-support-links a{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:4px;color:var(--accent);background:var(--paper);font-size:12px;text-decoration:none}
+.author-support-links svg{width:14px;height:14px;flex:none}
+.author-support-help{font-size:12px;line-height:1.85;color:var(--muted)}
+.author-support-help p{margin:0 0 10px}
+.author-support-thanks{font:15px var(--serif);color:var(--muted);text-align:center;margin:24px 0 12px;line-height:1.8}
+.author-support-resume{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:18px 0 0;font-size:13px;min-height:44px;height:auto;padding:10px}
+.author-support-resume svg{width:17px;height:17px;flex:none}
+@media(max-width:370px){.author-support-intro{font-size:13px}.author-support-figure{padding:12px}.author-support-links{gap:10px}.author-support-links a{padding-left:10px;padding-right:10px}}
+
+/* Accounts and feedback remain secondary to the free poetry game. */
+.account-panel{padding:20px 0;border-bottom:1px solid var(--line)}
+.account-panel>p,.account-panel form>p{font-size:12px;line-height:1.8;color:var(--muted);margin:10px 0}
+.account-identity{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.account-identity strong{font:500 19px var(--serif);overflow-wrap:anywhere}.account-identity span{font-size:11px;color:var(--accent);padding:3px 8px;border-radius:12px;background:var(--accent-soft)}
+.account-tabs{display:flex;gap:8px;margin:16px 0}.account-tabs button{flex:1;min-height:42px;border:1px solid var(--line);border-radius:4px;background:var(--wash);font-size:12px;color:var(--muted)}.account-tabs button[aria-pressed=true]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.community-form{display:flex;flex-direction:column;gap:16px}.community-form label{display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink)}
+.community-form input,.community-form textarea,.community-form select{width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--wash);font:16px var(--sans);color:var(--ink)}.community-form textarea{resize:vertical;line-height:1.7;min-height:150px}
+.community-form .form-note,.community-privacy{font-size:11px;color:var(--muted);line-height:1.8;margin:0}.community-privacy{margin-top:24px}.community-intro{font-size:13px;line-height:1.9;margin:0 0 24px;color:var(--muted)}
+.community-form .primary{width:100%;min-height:44px;height:auto;padding:12px;font-size:14px}.account-settings{margin:16px 0}.account-settings summary{cursor:pointer;color:var(--accent);font-size:13px;min-height:38px;line-height:38px}.account-settings form{padding:12px 0}.account-panel>.secondary{width:100%;min-height:44px;font-size:13px}
+.account-warning{color:var(--red)!important;background:var(--accent-soft);padding:12px;border-radius:4px}.admin-entry{display:block;padding:16px 0 0;color:var(--accent);font-size:12px}.feedback-success{padding:24px 16px;background:var(--accent-soft);border:1px solid var(--line);border-radius:6px;color:var(--accent);overflow-wrap:anywhere}.feedback-success p{font-size:12px;line-height:1.8;margin:14px 0}.feedback-success .secondary{width:100%;min-height:44px}
+.community-form input:focus-visible,.community-form textarea:focus-visible,.community-form select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media(max-width:599px){
+  .keyboard-open .personal-shell{height:auto;min-height:100svh;overflow:visible}
+  .keyboard-open .personal-content{overflow:visible}
+  .keyboard-open .personal-shell>.bottom-nav{display:none}
+}
+
+/* Center transient notices within the screen. */
+#toast{top:50%;bottom:auto;box-sizing:border-box;width:max-content;max-width:min(440px,calc(100% - 32px));padding:12px 18px;font-size:14px;line-height:1.5;font-weight:500;overflow-wrap:anywhere;box-shadow:0 5px 18px #102c2833;transform:translate(-50%,calc(-50% + 8px))}
+#toast.visible{transform:translate(-50%,-50%)}
+#toast[data-kind=success]{background:#18574c}
+#toast[data-kind=error]{background:#9b3f37}

@@ -1,0 +1,28 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.playwright-cli/
+.DS_Store
+
+# All corpora, databases, account records and generated reports stay private.
+data/
+docs/
+backups/
+output/
+models/
+screenshots/
+deploy/
+*.sqlite*
+*.db
+*.db-*
+*.csv
+*.jsonl
+*.log
+*.part
+
+# Personal payment imagery is managed outside the public code repository.
+static/assets/support-wechat-*

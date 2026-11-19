@@ -1,0 +1,42 @@
+async page => {
+  const checks=[],errors=[];
+  const check=(label,ok)=>{if(!ok)throw Error(label);checks.push(label)};
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:8765');
+  await page.evaluate(()=>localStorage.removeItem('feihualing.game'));await page.reload();
+  await page.getByRole('link',{name:'查诗',exact:true}).click();
+  await page.locator('.result-item').first().waitFor();
+  const first=page.locator('.result-item').first();
+  check('search presents whole couplet',(await first.locator('.result-line').innerText())==='床前明月光，疑是地上霜。');
+  check('no forced line break',await first.locator('br').count()===0);
+  check('count is entries',(await page.locator('.results-bar').innerText()).includes('条'));
+  await page.evaluate(()=>{window.__copied='';Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>{window.__copied=t}}})});
+  await first.getByRole('button',{name:'复制诗句'}).click();
+  check('copy whole pair',await page.evaluate(()=>__copied==='床前明月光，疑是地上霜。'));
+  await page.evaluate(()=>{
+    window.__spoken=[];
+    window.SpeechSynthesisUtterance=class{constructor(text){this.text=text}};
+    Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{cancel(){},getVoices:()=>[{lang:'zh-CN'}],speak(u){__spoken.push(u)}}});
+  });
+  await first.locator('.read-btn').click();
+  await page.evaluate(()=>__spoken.at(-1).onend());
+  check('read both clauses in order',await page.evaluate(()=>__spoken.map(u=>u.text).join('')==='床前明月光，疑是地上霜。'));
+  await first.locator('.result-open').click();await page.getByRole('dialog').waitFor();
+  check('whole poem provenance',(await page.getByRole('dialog').innerText()).includes('李白'));
+  await page.getByRole('button',{name:'关闭',exact:true}).click();
+  await page.getByRole('link',{name:'人机对战',exact:true}).click();
+  await page.getByRole('button',{name:'开始对战',exact:true}).click();await page.waitForURL('**#battle');
+  await page.getByRole('textbox',{name:'输入诗句'}).fill('床前明月光');
+  const response=page.waitForResponse(r=>r.url().endsWith('/answers'));
+  await page.getByRole('button',{name:'提交诗句'}).click();const result=await(await response).json();
+  await page.waitForFunction(()=>document.querySelectorAll('.poem-message').length===2&&!document.querySelector('.send-btn').disabled);
+  check('player single is not padded',result.game.messages[0].line_ids.length===1&&result.game.messages[0].text==='床前明月光');
+  check('bot gives pair',result.game.messages[1].line_ids.length===2&&result.game.messages[1].text.endsWith('。'));
+  check('bot text matches saved pair',await page.locator('.poem-message.computer .poem-text').innerText()===result.game.messages[1].text);
+  check('both bot clauses used',result.game.messages[1].line_ids.every(id=>result.game.used.includes(id)));
+  await page.reload();await page.locator('.poem-message.computer').waitFor();
+  check('restore exact pair',await page.locator('.poem-message.computer .poem-text').innerText()===result.game.messages[1].text);
+  await page.getByRole('button',{name:'退出对局'}).click();await page.getByRole('button',{name:'离开对局',exact:true}).click();await page.waitForURL('**#home');
+  check('no script errors',errors.length===0);
+  return {checks,errors};
+}

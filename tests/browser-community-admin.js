@@ -1,0 +1,50 @@
+async page => {
+ const checks=[],errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ const check=(name,ok)=>{if(!ok)throw Error(name);checks.push(name)};
+ const base='http://127.0.0.1:8875';
+ if(await page.getByRole('button',{name:'登录后台',exact:true}).count()){
+ await page.getByLabel('账号名',{exact:true}).fill('qa_admin');
+ await page.getByLabel('密码',{exact:true}).fill('LocalAdmin-Validation2026');
+ await page.getByRole('button',{name:'登录后台',exact:true}).click();
+ }
+ await page.getByRole('heading',{name:'使用概览'}).waitFor();
+ check('admin login overview',await page.getByText('功能操作',{exact:true}).count()===1);
+ await page.setViewportSize({width:1440,height:1000});
+ await page.screenshot({path:'output/playwright/community/admin-overview.png',fullPage:true});
+ const browser=page.context().browser(),ctx=await browser.newContext(),userPage=await ctx.newPage();
+ await userPage.goto(base+'/#me');
+ await userPage.locator('#account-form').waitFor();
+ const user=await userPage.evaluate(async()=>await(await fetch('/api/me')).json());
+ const feedback=await userPage.evaluate(async()=>await(await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'suggestion',body:'本地验收反馈：希望查诗页面更方便使用。<script>window.bad=true</script>',contact:'local-test',request_id:crypto.randomUUID()})})).json());
+ check('feedback locally persisted',Boolean(feedback.id));
+ await page.getByRole('button',{name:'意见反馈',exact:true}).click();
+ await page.getByText('编号 '+feedback.id,{exact:false}).waitFor();
+ const card=page.locator('.feedback-card').filter({hasText:feedback.id});
+ check('feedback text escaped',await card.locator('.feedback-body').innerText()==='本地验收反馈：希望查诗页面更方便使用。<script>window.bad=true</script>');
+ await card.getByRole('button',{name:'标为已处理'}).click();
+ await card.getByRole('button',{name:'标为待处理'}).waitFor();
+ check('feedback status changed',true);
+ await page.screenshot({path:'output/playwright/community/admin-feedback.png',fullPage:true});
+ await page.getByRole('button',{name:'用户',exact:true}).click();
+ await page.waitForFunction(()=>!document.querySelector('.loading'));
+ await page.getByLabel('账号或用户编号').fill(user.id);
+ await page.getByRole('button',{name:'筛选',exact:true}).click();
+ await page.waitForFunction(()=>!document.querySelector('.loading'));
+ await page.getByRole('button',{name:'查看活动',exact:true}).waitFor();
+ await page.getByRole('button',{name:'查看活动',exact:true}).click();
+ await page.getByRole('button',{name:'← 返回用户列表'}).waitFor();
+ await page.waitForFunction(()=>!document.querySelector('.loading'));
+ check('user timeline shows feedback',await page.locator('tbody').innerText().then(t=>t.includes('意见反馈')));
+ await page.screenshot({path:'output/playwright/community/admin-timeline.png',fullPage:true});
+ await page.getByRole('button',{name:'通知投递',exact:true}).click();
+ await page.getByRole('heading',{name:'通知投递',exact:true}).waitFor();
+ await page.waitForFunction(()=>!document.querySelector('.loading'));
+ check('outbox displayed',await page.locator('tbody tr').count()>0);
+ await page.setViewportSize({width:390,height:844});
+ check('admin mobile no document overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.screenshot({path:'output/playwright/community/admin-mobile.png',fullPage:true});
+ check('no JS exceptions',errors.length===0);
+ await ctx.close();
+ console.log(JSON.stringify({checks,errors}));
+}
